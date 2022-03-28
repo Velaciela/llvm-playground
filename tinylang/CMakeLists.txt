@@ -1,4 +1,4 @@
-cmake minimum required(VERSION 3.4.3)
+cmake_minimum_required(VERSION 3.4.3)
 project(Tinylang)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR AND NOT MSVC_IDE)
@@ -12,7 +12,7 @@ find_package(LLVM REQUIRED HINTS "${LLVM_CMAKE_PATH}")
 list(APPEND CMAKE_MODULE_PATH ${LLVM_DIR})
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 include(AddLLVM)
-include(HandleLLVMOptions)
+include(HandleLLVMOptions) # /usr/local/lib/cmake/llvm/HandleLLVMOptions.cmake
 
 # print
 message(STATUS "========================[status]=======================")
@@ -24,9 +24,6 @@ message(STATUS "LLVM_CMAKE_PATH = ${LLVM_CMAKE_PATH}")
 message(STATUS "LLVM_BINARY_DIR = ${LLVM_BINARY_DIR}")
 message(STATUS "LLVM_INCLUDE_DIR = ${LLVM_INCLUDE_DIR}")
 message(STATUS "LLVM_LIBRARY_DIR = ${LLVM_LIBRARY_DIR}")
-message(STATUS "-------------------------------------------------------")
-message(STATUS "AddLLVM = ${AddLLVM}")
-message(STATUS "HandleLLVMOptions = ${HandleLLVMOptions}")
 message(STATUS "========================[status]=======================")
 
 
