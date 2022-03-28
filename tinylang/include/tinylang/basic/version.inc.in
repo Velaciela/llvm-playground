@@ -1,0 +1,4 @@
+#define TINYLANG_VERSION_STRING "@TINYLANG_VERSION_STRING@"
+
+// cmake will create version.inc in the build directory corresponding to this source directory
+//     i.e.: #define TINYLANG_VERSION_STRING 0.1
