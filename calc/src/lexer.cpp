@@ -23,7 +23,7 @@ LLVM_READNONE inline bool isLetter(char c) {
 } // namespace charinfo
 
 void Lexer::next(Token &token) {
-    while (*buffer_ptr_ && charinfo::isWhiteSpace(*buffer_ptr_)) {
+    while (*buffer_ptr_ && charinfo::isWhitespace(*buffer_ptr_)) {
         ++buffer_ptr_;
     }
     if (!*buffer_ptr_) {
@@ -68,6 +68,6 @@ void Lexer::next(Token &token) {
 
 void Lexer::formToken(Token &tok, const char *tok_end, Token::TokenKind kind) {
     tok.kind_ = kind;
-    tok.text_ llvm::StringRef(buffer_ptr_, tok_end, - buffer_ptr_);
+    tok.text_ = llvm::StringRef(buffer_ptr_, tok_end - buffer_ptr_);
     buffer_ptr_ = tok_end;
 }

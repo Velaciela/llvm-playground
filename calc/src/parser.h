@@ -13,7 +13,7 @@ class Parser {
     bool has_error_; // indicates if an error was detected
 
     void error() {
-        llvm::errs() << "Unexpected: " << tok_.getText(); << "\n";
+        llvm::errs() << "Unexpected: " << tok_.getText() << "\n";
         has_error_ = true;
     }
 
@@ -23,6 +23,7 @@ class Parser {
 
     bool expect(Token::TokenKind kind) {
         if (tok_.getKind() != kind ) {
+            llvm::outs() << tok_.getKind() << " != " << kind << "\n";
             error();
             return true;
         }
@@ -54,4 +55,4 @@ public:
 
     // the parse() method is the main entry point into parsing
     AST *parse();
-}
+};

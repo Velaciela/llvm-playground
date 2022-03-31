@@ -1,5 +1,6 @@
 #include "sema.h"
 #include "llvm/ADT/StringSet.h"
+#include "llvm/Support/raw_ostream.h"
 
 // The basic idea is that the name of each declared variable is stored in a set. 
 // While the set it being created, we can check that each name is unique 
@@ -15,8 +16,8 @@ class DeclCheck : public ASTVisitor {
 
     void error(ErrorType et, llvm::StringRef v) {
         llvm::errs() << "Variable " << v << " "
-                        << (et == Twice ? "already" : "not")
-                        << " declared\n";
+                     << (et == Twice ? "already" : "not")
+                     << " declared\n";
         has_error_ = true;
     }
 

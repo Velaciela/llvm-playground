@@ -21,8 +21,8 @@ int main(int argc, const char **argv) {
         argc, argv, "calc - the expression compiler\n");
 
     Lexer lex(Input);
-    Parser parser(Lex);
-    AST *tree = Parser.parse();
+    Parser parser(lex);
+    AST *tree = parser.parse();
     // check if errors occurred after syntactical analysis
     if (!tree || parser.hasError()) {
         llvm::errs() << "Syntax errors occured\n";

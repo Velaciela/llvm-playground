@@ -33,7 +33,7 @@ public:
 class Expr : public AST {
 public:
     Expr() {}
-}
+};
 
 // The Factor class stores a number or the name of a variable
 class Factor : public Expr {
@@ -77,7 +77,7 @@ private:
 public:
     BinaryOp(Operator op, Expr *l, Expr *r)
         : op_(op), left_(l), right_(r) {}
-    Expr *getleft() { return left_; }
+    Expr *getLeft() { return left_; }
     Expr *getRight() { return right_; }
     Operator getOperator() { return op_; }
     virtual void accept(ASTVisitor &v) override {

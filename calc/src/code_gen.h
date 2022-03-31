@@ -7,4 +7,4 @@ class CodeGen {
 public:
     void compile(AST *tree);
 
-}
+};

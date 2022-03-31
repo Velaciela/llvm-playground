@@ -9,7 +9,7 @@
 
 using namespace llvm;
 
-namespase {
+namespace {
 
 class ToIRVisitor : public ASTVisitor {
 
@@ -36,12 +36,12 @@ class ToIRVisitor : public ASTVisitor {
 
 public:
 
-    ToIRVisitor(Module *m) : m_(m), Builder(m->getContext()) {
+    ToIRVisitor(Module *m) : m_(m), builder_(m->getContext()) {
         // initializes all the members
         void_ty_ = Type::getVoidTy(m->getContext());
         int32_ty_ = Type::getInt32Ty(m->getContext());
         int8_ptr_ty_ = Type::getInt8PtrTy(m->getContext());
-        int8_ptr_ptr_ty_ = int8_ptr_ty_->getPointerTo());
+        int8_ptr_ptr_ty_ = int8_ptr_ty_->getPointerTo();
         int32_zero_ = ConstantInt::get(int32_ty_, 0, true);
     }
 
@@ -75,8 +75,8 @@ public:
     // A WithDecl node holds the names of the declared variables.
     virtual void visit(WithDecl &node) override {
         // First, we must create a function prototype for the calc_read() function:
-        FunctionType *reaf_fty = FunctionType::get(int32_ty_, {int8_ptr_ty}, false);
-        Function *read_fn = Function::Create(reaf_fty, GlobalValue::ExternalLinkage, "calc_read", m_);
+        FunctionType *read_fty = FunctionType::get(int32_ty_, {int8_ptr_ty_}, false);
+        Function *read_fn = Function::Create(read_fty, GlobalValue::ExternalLinkage, "calc_read", m_);
 
         // The method loops through the variable names:
         for (auto i = node.begin(), e = node.end(); i != e; ++i) {
@@ -90,9 +90,8 @@ public:
             
             // Then, the IR code to call the calc_read() function is created. 
             // The string that we created in the previous step is passed as a parameter:
-            Value *ptr = Builder.CreateInBoundsGEP(
-                str, {int32_zero_, int32_zero_}, "ptr");
-            CallInst *call = Builder.CreateCall(read_fty, read_fn, {ptr});
+            Value *ptr = builder_.CreateInBoundsGEP(str->getType(), str, {int32_zero_, int32_zero_}, "ptr");
+            CallInst *call = builder_.CreateCall(read_fty, read_fn, {ptr});
             
             //The returned value is stored in the mapNames map for later use:
             name_map_[var] = call;
@@ -106,13 +105,13 @@ public:
     virtual void visit(Factor &node) override {
         if (node.getKind() == Factor::Ident) {
             // For a variable name, the value is looked up in the mapNames map. 
-            v = name_map_[node.getValue()];
+            v_ = name_map_[node.getVal()];
         }
         else {
             // For a number, the value is converted into an integer and turned into a constant value:
             int int_val;
-            node.getVal().getAsInterger(10, int_val);
-            v = ConstantInt::get(int32_ty_, int_val, true);
+            node.getVal().getAsInteger(10, int_val);
+            v_ = ConstantInt::get(int32_ty_, int_val, true);
         }
     }
 
@@ -121,21 +120,21 @@ public:
         node.getLeft()->accept(*this);
         Value *left = v_;
         node.getRight()->accept(*this);
-        Value *right = v;
+        Value *right = v_;
         switch (node.getOperator()) {
             case BinaryOp::Plus:
-                v_ = Builder.CreateNSWAdd(left, right); break;
+                v_ = builder_.CreateNSWAdd(left, right); break;
             case BinaryOp::Minus:
-                v_ = Builder.CreateNSWSub(left, right); break;
+                v_ = builder_.CreateNSWSub(left, right); break;
             case BinaryOp::Mul:
-                v_ = Builder.CreateNSWMul(left, right); break;
+                v_ = builder_.CreateNSWMul(left, right); break;
             case BinaryOp::Div:
-                v_ = Builder.CreateSDiv(left, right); break;
+                v_ = builder_.CreateSDiv(left, right); break;
         }
     }
-};
+}; // class
 
-} // namespace
+}; // namespace
 
 
 // The compile() method creates the global context and the module, 

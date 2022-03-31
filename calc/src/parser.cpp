@@ -52,7 +52,7 @@ AST *Parser::parseCalc() {
 //         for example, in C++, we can use ; (end of a statement) or } (end of a block). 
 //         Such tokens are good candidates to look for.
 _error:
-    while (!tok_is(Token::eoi))
+    while (!tok_.is(Token::eoi))
         advance();
     return nullptr;
 }
@@ -66,7 +66,7 @@ Expr *Parser::parseExpr() {
     while (tok_.isOneOf(Token::plus, Token::minus)) {
         // repeated group inside the rule is translated into a while loop.
         // note how the use of the isOneOf() method simplifies the check for several tokens.
-        BinaryOp::operator op = tok_.is(Token::plus) ?
+        BinaryOp::Operator op = tok_.is(Token::plus) ?
                                 BinaryOp::Plus : BinaryOp::Minus;
         advance();
         Expr *right = parseTerm();
@@ -87,6 +87,7 @@ Expr *Parser::parseTerm() {
         left = new BinaryOp(op, left, right);
     }
     return left;
+}
 
 
 // factor : ident | number | "(" expr ")" ;
@@ -94,10 +95,10 @@ Expr *Parser::parseFactor() {
     Expr *res = nullptr;
     switch (tok_.getKind()) {
         case Token::number:
-            res = new Factor(Factor::Number, Tok.getText());
+            res = new Factor(Factor::Number, tok_.getText());
             advance(); break;
         case Token::ident:
-            res = new Factor(Factor::Ident, Tok.getText());
+            res = new Factor(Factor::Ident, tok_.getText());
             advance(); break;
         case Token::l_paren:
             advance(); 
