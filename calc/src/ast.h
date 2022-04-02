@@ -2,6 +2,7 @@
 
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/StringRef.h"
+#include "llvm/Support/raw_ostream.h"
 
 class AST;
 class Expr;
@@ -94,7 +95,13 @@ class WithDecl : public AST {
 
 public:
     WithDecl(llvm::SmallVector<llvm::StringRef,8> vars, Expr *e)
-        : vars_(vars), e_(e) {}
+        : vars_(vars), e_(e) 
+    {
+        // llvm::outs() << "WithDecl: " << "\n";
+        for (auto itr = vars.begin(); itr < vars.end(); itr++) {
+            // llvm::outs() << "    " << *itr << "\n";
+        }
+    }
     VarVector::const_iterator begin() {return vars_.begin(); }
     VarVector::const_iterator end() { return vars_.end(); }
     Expr *getExpr() { return e_; }

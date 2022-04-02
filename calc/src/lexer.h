@@ -10,7 +10,8 @@
     //    Because the length is stored, the string doesn't need to be terminated with a zero character ('\x00') like normal C strings. 
     //    This allows an instance of StringRef to point to the memory managed by MemoryBuffer. 
 
-
+#include "llvm/Support/raw_ostream.h"
+    // print log
 
 class Lexer;
 
@@ -58,6 +59,7 @@ class Lexer{
 
 public:
     Lexer(const llvm::StringRef &buffer) {
+        // llvm::outs() << "Lexer::Lexer\n";
         buffer_start_ = buffer.begin();
         buffer_ptr_ = buffer_start_;
     }

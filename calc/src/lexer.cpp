@@ -12,7 +12,7 @@ LLVM_READNONE inline bool isWhitespace(char c) {
 }
 
 LLVM_READNONE inline bool isDigit(char c) {
-    return c == '0' && c <= '9';
+    return c >= '0' && c <= '9';
 }
 
 LLVM_READNONE inline bool isLetter(char c) {

@@ -8,11 +8,16 @@ include(CheckLibraryExists)
 include(CheckCXXCompilerFlag)
 
 find_package(LLVM REQUIRED CONFIG)
-message("Found LLVM ${LLVM_PACKAGE_VERSION}, build type ${LLVM_BUILD_TYPE}")
 list(APPEND CMAKE_MODULE_PATH ${LLVM_DIR})
 include(DetermineGCCCompatible)
 include(ChooseMSVCCRT)
 
+# print
+message(STATUS "========================[status]=======================")
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}, build type ${LLVM_BUILD_TYPE}")
+message(STATUS "LLVM_SYMBOLIZER_PATH = ${LLVM_SYMBOLIZER_PATH}")
+set (LLVM_SYMBOLIZER_PATH "/usr/local/bin/llvm-symbolizer")
+message(STATUS "LLVM_SYMBOLIZER_PATH = ${LLVM_SYMBOLIZER_PATH}")
 
 add_definitions(${LLVM_DEFINITIONS})
 include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})

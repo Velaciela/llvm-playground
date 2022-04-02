@@ -23,7 +23,7 @@ class Parser {
 
     bool expect(Token::TokenKind kind) {
         if (tok_.getKind() != kind ) {
-            llvm::outs() << tok_.getKind() << " != " << kind << "\n";
+            // llvm::outs() << tok_.getKind() << " != " << kind << "\n";
             error();
             return true;
         }
@@ -48,6 +48,7 @@ class Parser {
 
 public:
     Parser(Lexer &lex): lex_(lex), has_error_(false) {
+        // llvm::outs() << "Parser::Parser\n";
         advance();
     }
 

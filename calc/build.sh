@@ -12,5 +12,3 @@ cd build
 ninja
 ninja install
 cd ..
-
-

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 // writes the resulting value to the terminal
-void clac_write(int v) {
+void calc_write(int v) {
     printf("The result is: %d\n", v);
 }
 
@@ -15,8 +15,8 @@ int calc_read(char *s) {
     int val;
     
     printf("Enter a value for %s: ", s);
-    fget(buf, sizeof(buf), stdin);
-    if (EOF == sccanf(buf, "%d", &val)) {
+    fgets(buf, sizeof(buf), stdin);
+    if (EOF == sscanf(buf, "%d", &val)) {
         // exit the application if the input is not a number
         printf("Value %s is invalid\n", buf);
         exit(1);

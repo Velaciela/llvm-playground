@@ -22,13 +22,14 @@ int main(int argc, const char **argv) {
 
     Lexer lex(Input);
     Parser parser(lex);
+    // The result of the parsing process is an AST
     AST *tree = parser.parse();
+    
     // check if errors occurred after syntactical analysis
     if (!tree || parser.hasError()) {
         llvm::errs() << "Syntax errors occured\n";
         return 1;
     }
-
     Sema semantic;
     if (semantic.semantic(tree)) {
         llvm::errs() << "Semantic errors occured\n";
